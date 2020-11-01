@@ -30,8 +30,6 @@ public struct TrackPadConfiguration {
     public let minY: Double
     /// The maximum value from rangeY
     public let maxY: Double
-    
-    public let resetToInitialLocationWhenReleased: Bool
 }
 // MARK: - Style
 @available(iOS 13.0, macOS 10.15, watchOS 6.0 , *)
@@ -171,12 +169,7 @@ public struct TrackPad: View {
     public var rangeX: ClosedRange<CGFloat> = 0...1
     public var rangeY: ClosedRange<CGFloat> = 0...1
     public var isDisabled: Bool = false
-    
-    private var initialValue: CGPoint
-    
-    
     public init(value: Binding<CGPoint>, rangeX: ClosedRange<CGFloat>, rangeY: ClosedRange<CGFloat>, isDisabled: Bool = false){
-        self.initialValue = value.wrappedValue
         self._value = value
         self.rangeX = rangeX
         self.rangeY = rangeY
@@ -185,14 +178,12 @@ public struct TrackPad: View {
 
     public init(_ value: Binding<CGPoint>){
         self._value = value
-        self.initialValue = value.wrappedValue
     }
     /// Use this initializer for when the x and y ranges are the same
     public init(_ value: Binding<CGPoint>, range: ClosedRange<CGFloat>){
         self._value = value
         self.rangeX = range
         self.rangeY = range
-        self.initialValue = value.wrappedValue
     }
 
 
@@ -206,9 +197,7 @@ public struct TrackPad: View {
               minX: Double(rangeX.lowerBound),
               maxX: Double(rangeX.upperBound),
               minY: Double(rangeY.lowerBound),
-              maxY: Double(rangeY.upperBound),
-              resetToInitialLocationWhenReleased: true
-              )
+              maxY: Double(rangeY.upperBound))
     }
 
     // MARK: Calculations
@@ -276,12 +265,7 @@ public struct TrackPad: View {
                                     self.isActive = true
                                 })
                                 .onEnded({
-                                    if configuration.resetToInitialLocationWhenReleased {
-                                        self.value = self.initialValue
-                                    } else {
-                                        self.constrainValue(proxy, $0.location)
-                                    }
-                                    
+                                    self.constrainValue(proxy, $0.location)
                                     self.isActive = false
                                 }))
 
