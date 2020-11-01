@@ -264,8 +264,8 @@ public struct TrackPad: View {
                                     self.constrainValue(proxy, $0.location)
                                     self.isActive = true
                                 })
-                                .onEnded({
-                                    self.constrainValue(proxy, $0.location)
+                                .onEnded({ _ in
+                                    self.value = .zero
                                     self.isActive = false
                                 }))
 
