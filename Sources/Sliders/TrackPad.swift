@@ -30,6 +30,8 @@ public struct TrackPadConfiguration {
     public let minY: Double
     /// The maximum value from rangeY
     public let maxY: Double
+    
+    public let defaultPos: CGPoint?
 }
 // MARK: - Style
 @available(iOS 13.0, macOS 10.15, watchOS 6.0 , *)
@@ -265,7 +267,7 @@ public struct TrackPad: View {
                                     self.isActive = true
                                 })
                                 .onEnded({
-                                    self.constrainValue(proxy, $0.location)
+                                    self.value = .zero
                                     self.isActive = false
                                 }))
 
