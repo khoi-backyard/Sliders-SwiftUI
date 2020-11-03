@@ -265,7 +265,7 @@ public struct TrackPad: View {
                                     self.isActive = true
                                 })
                                 .onEnded({ _ in
-                                    self.value = .zero
+                                    self.value = CGPoint(x: 50, y: 50)
                                     self.isActive = false
                                 }))
 
